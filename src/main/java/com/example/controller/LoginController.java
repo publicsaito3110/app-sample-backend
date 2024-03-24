@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
+
 @RestController
 @RequestMapping("/api")
 public class LoginController {
@@ -29,7 +31,13 @@ public class LoginController {
                     new UsernamePasswordAuthenticationToken(loginForm.getId(), loginForm.getPassword())
             );
             // JWTトークンの生成
-            String token = JWT.create().withClaim("username",loginForm.getId())
+            String token = JWT.create()
+                    // ユーザ名
+                    .withClaim("username",loginForm.getId())
+                    // 有効期限
+                    .withExpiresAt(new Date(new Date().getTime() + 1000 * 60 * 60))
+                    // ロール情報
+                    .withClaim("role", "ROLE_ADMIN")
                     .sign(Algorithm.HMAC256("__secret__"));
             // トークンをクライアントに返す
             HttpHeaders httpHeaders = new HttpHeaders();

@@ -7,6 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Date;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -21,5 +23,12 @@ public class SampleTest {
         String hashPass = passwordEncoder.encode("1234");
         assertEquals("fe2154ed7548acd9a9a3de891c256de6537baec35d886b430bdf3b4bcd6b7e3e", hashPass);
         assertEquals(200, HttpStatus.OK.value());
+    }
+
+    @Test
+    @DisplayName("Test02")
+    public  void test02() {
+        Date date = new Date(new Date().getTime() + 1000 * 60 * 60);
+        assertEquals(date, null);
     }
 }
